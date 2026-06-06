@@ -1,15 +1,38 @@
+<div align="center">
+
 # Residential Property Valuation
 
-A practical competition repository for the Kaggle **House Prices - Advanced Regression Techniques** challenge.
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=24&pause=1200&color=0F766E&center=true&vCenter=true&width=900&lines=Kaggle+House+Prices+Competition+Solution;Public+Leaderboard+Score%3A+0.12254;Gradient+Boosting+Selected+via+Cross-Validation;Portfolio-Ready+Tabular+ML+Project" alt="Typing banner" />
 
-This project is built as portfolio-grade engineering work: reproducible, cleanly structured, and thesis-ready.
+![Kaggle](https://img.shields.io/badge/Kaggle-House%20Prices-20BEFF?style=for-the-badge&logo=kaggle&logoColor=white)
+![Public Score](https://img.shields.io/badge/Public%20Score-0.12254-0F766E?style=for-the-badge)
+![Best Model](https://img.shields.io/badge/Best%20Model-Gradient%20Boosting-1D4ED8?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Submitted-success?style=for-the-badge)
 
-## Why This Repo Works For Your Portfolio
+</div>
 
-- Real competition grounding, not toy datasets.
-- Full modeling pipeline with feature preprocessing and model benchmarking.
-- Explicit competition metric handling (RMSLE-oriented training via log-target modeling).
-- Submission artifact generation for direct Kaggle upload.
+This repository solves the Kaggle **House Prices - Advanced Regression Techniques** competition with a reproducible ML pipeline, model benchmarking, and a verified leaderboard submission.
+
+## Achievement Snapshot
+
+- Competition solved end to end from local pipeline to live Kaggle submission.
+- **Public leaderboard score:** `0.12254`
+- **Best cross-validated model:** `GradientBoostingRegressor`
+- **Best CV RMSLE:** `0.12437` using 3-fold validation
+- **Models benchmarked:** Ridge, Elastic Net, Gradient Boosting, Random Forest
+- **Submission artifact generated:** `outputs/submission.csv`
+
+## Why This Repo Stands Out
+
+- Uses the real Kaggle competition dataset, not a toy housing sample.
+- Handles mixed tabular data with explicit preprocessing for numeric and categorical features.
+- Optimizes for the competition metric by training on `log1p(SalePrice)`.
+- Benchmarks multiple models before selecting the best performer.
+- Produces a ready-to-upload submission file in one command.
+
+## Competition Link
+
+- [House Prices - Advanced Regression Techniques](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques)
 
 ## Project Structure
 
@@ -19,60 +42,63 @@ residential-property-valuation/
 ├── requirements.txt
 ├── .gitignore
 ├── data/
-│   ├── train.csv
-│   └── test.csv
+│   ├── data_description.txt
+│   ├── sample_submission.csv
+│   ├── test.csv
+│   └── train.csv
 └── outputs/
-    └── submission.csv
+   └── submission.csv
 ```
 
-## Competition Link
+## Quick Start
 
-- [House Prices - Advanced Regression Techniques](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques)
-
-## Setup
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-If you have Kaggle API credentials configured, run:
-
-```bash
-python pipeline.py
-```
-
-If `train.csv` and `test.csv` are already in `data/`, run:
+Run with existing competition files in `data/`:
 
 ```bash
 python pipeline.py --skip-download
 ```
 
-## Modeling Approach
+Run with Kaggle API download enabled:
 
-1. Target transformation:
+```bash
+python pipeline.py
+```
 
-- Train on `log1p(SalePrice)` to align with RMSLE-style objectives.
+## Modeling Pipeline
 
-1. Feature handling:
+1. **Target transformation**
+  Train on `log1p(SalePrice)` so model evaluation aligns with RMSLE-style leaderboard behavior.
 
-- Numeric features: median imputation + standardization.
-- Categorical features: mode imputation + one-hot encoding.
+2. **Preprocessing**
+  Numeric columns use median imputation plus scaling.
+  Categorical columns use mode imputation plus one-hot encoding.
 
-1. Model search:
+3. **Model benchmark**
+  The pipeline evaluates:
+  `Ridge`, `ElasticNet`, `GradientBoostingRegressor`, `RandomForestRegressor`
 
-- Ridge regression
-- Elastic Net
-- Gradient Boosting Regressor
-- Random Forest Regressor
+4. **Model selection**
+  K-fold cross-validation selects the lowest RMSLE-scale error.
 
-1. Selection:
+5. **Submission generation**
+  Predictions are transformed back with `expm1` and saved to `outputs/submission.csv`.
 
-- K-fold CV using root RMSE on log target (equivalent to RMSLE scale).
+## Best Run
 
-1. Submission generation:
-
-- Predictions transformed back with `expm1`.
-- Output file: `outputs/submission.csv`.
+| Metric | Result |
+| --- | --- |
+| Training rows | 1460 |
+| Test rows | 1459 |
+| CV folds used for winning run | 3 |
+| Best CV RMSLE | 0.12437 |
+| Public leaderboard score | 0.12254 |
+| Winning model | Gradient Boosting |
 
 ## Kaggle Submission Command
 
@@ -80,34 +106,19 @@ python pipeline.py --skip-download
 kaggle competitions submit \
   -c house-prices-advanced-regression-techniques \
   -f outputs/submission.csv \
-  -m "Baseline blended preprocessing + model sweep"
+  -m "Gradient boosting baseline with preprocessing pipeline"
 ```
 
-## Thesis Angles You Can Build From This
+## Portfolio Value
 
-1. **Structured feature-learning thesis**
+- Demonstrates clean ML workflow design, not just notebook experimentation.
+- Shows metric-aware modeling choices for leaderboard competitions.
+- Proves ability to move from dataset acquisition to validated external submission.
+- Gives a strong base for a second project focused on ensembles, explainability, or deployment.
 
-- Compare manual feature engineering vs learned embeddings for mixed tabular features.
-- Evaluate interpretability trade-offs with SHAP and partial dependence.
+## Strong Next Projects
 
-1. **Generalization and shift thesis**
-
-- Simulate covariate drift across neighborhoods/year-built segments.
-- Quantify calibration and ranking stability under shift.
-
-1. **AutoML reliability thesis**
-
-- Benchmark handcrafted pipelines against AutoML frameworks.
-- Study reproducibility, variance, and computational cost.
-
-1. **Uncertainty-aware valuation thesis**
-
-- Move from point predictions to prediction intervals.
-- Evaluate interval coverage versus practical decision utility.
-
-## Next Upgrade Path
-
-- Add stacking/ensembling with out-of-fold meta-features.
-- Add feature importance and model explainability reports.
-- Add experiment tracking and model registry artifacts.
-- Add CI checks and data validation contracts.
+1. Build a stacked ensemble with out-of-fold meta-features and try to beat `0.12254`.
+2. Add SHAP-based explainability and create a valuation insight dashboard.
+3. Turn the pipeline into a Streamlit or FastAPI property valuation app.
+4. Add experiment tracking and automated hyperparameter search.
